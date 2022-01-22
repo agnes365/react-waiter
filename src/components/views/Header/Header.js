@@ -2,7 +2,7 @@ import NavBar from "../NavBar/NavBar";
 
 const Header = props => {
     return (
-        <header>
+        <header className="mb-3">
             <NavBar />
         </header>
     );
