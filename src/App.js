@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './components/pages/Home/Home'
-import Table from './components/pages/Table/Table'
+import TableEdit from './components/pages/TableEdit/TableEdit'
 import NotFound from './components/pages/NotFound/NotFound'
 import { Container, Spinner } from 'react-bootstrap';
 import Footer from './components/views/Footer/Footer';
@@ -13,17 +13,14 @@ function App() {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchTables());
-    return () => { };
-  }, [dispatch]);
+  useEffect(() => { dispatch(fetchTables()) }, []);
 
   return (
     <Container>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/table/:listId" element={<Table />} />
+        <Route path="/table/:tableId" element={<TableEdit />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
