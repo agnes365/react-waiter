@@ -12,19 +12,24 @@ import { fetchTables } from "./redux/tablesRedux";
 function App() {
 
   const dispatch = useDispatch();
-
-  useEffect(() => { dispatch(fetchTables()) }, []);
+  const [loader, setLoader] = useState(true);
+  useEffect(() => dispatch(fetchTables(() => setLoader(false))), [dispatch]);
 
   return (
-    <Container>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/table/:tableId" element={<TableEdit />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
-    </Container>
+    loader ?
+      <Container className="d-flex justify-content-center">
+        <Spinner animation="border" />
+      </Container>
+      :
+      <Container>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/table/:tableId" element={<TableEdit />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </Container>
   );
 }
 

@@ -13,7 +13,7 @@ const UPDATE_TABLES = createActionName('UPDATE_TABLES');
 export const updateTable = payload => ({ type: UPDATE_TABLE, payload });
 export const updateTables = payload => ({ type: UPDATE_TABLES, payload });
 
-export const updateTableRequest = (table) => {
+export const updateTableRequest = (table, callback) => {
   return dispatch => {
     const options = {
       method: 'PUT',
@@ -22,15 +22,22 @@ export const updateTableRequest = (table) => {
     };
 
     fetch(settings.db.url + '/api/tables/' + table.id, options)
-      .then(() => dispatch(updateTable(table)));
+      .then(res => res.json())
+      .then((t) => {
+        dispatch(updateTable(table));
+        callback();
+      });
   }
 }
 
-export const fetchTables = () => {
+export const fetchTables = (callback) => {
   return (dispatch) => {
     fetch(settings.db.url + '/api/tables')
       .then(res => res.json())
-      .then(tables => dispatch(updateTables(tables)));
+      .then(tables => {
+        dispatch(updateTables(tables));
+        callback();
+      });
   }
 }
 

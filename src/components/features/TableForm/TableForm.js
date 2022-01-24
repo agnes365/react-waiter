@@ -16,6 +16,8 @@ const TableForm = props => {
     const [bill, setBill] = useState(table.bill);
     const [backToHome, setBackToHome] = useState(false);
 
+    if (!table) return <Navigate to="/" />
+
     const actionSetStatus = (status) => {
         if (status === 'Cleaning' || status === 'Free')
             setPeopleAmount(0);
@@ -25,25 +27,20 @@ const TableForm = props => {
     }
 
     const actionSetPeopleAmount = (amount) => {
-        if (amount >= 0 && amount <= 10)
-            setPeopleAmount(amount);
+        if (amount >= 0 && amount <= 10 && amount <= maxPeopleAmount)
+            setPeopleAmount(parseInt(amount));
     }
 
     const actionSetMaxPeopleAmount = (max) => {
         if (max >= 0 && max <= 10)
-            setMaxPeopleAmount(max);
+            setMaxPeopleAmount(parseInt(max));
         if (peopleAmount > max)
-            setPeopleAmount(max);
+            setPeopleAmount(parseInt(max));
     }
-
-    const dispatch = useDispatch();
-
-    if (!table) return <Navigate to="/" />
 
     const handleSubmit = e => {
         e.preventDefault();
-        dispatch(updateTableRequest({ id: tableId, status, peopleAmount, maxPeopleAmount, bill }));
-        setBackToHome(true);
+        dispatch(updateTableRequest({ id: tableId, status, peopleAmount, maxPeopleAmount, bill }, () => setBackToHome(true)));
     };
 
     return (
