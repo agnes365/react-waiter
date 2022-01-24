@@ -5,6 +5,8 @@ import { getTableById, updateTableRequest } from '../../../redux/tablesRedux';
 import { Form, Row, Col, Button } from "react-bootstrap";
 
 const TableForm = props => {
+    const dispatch = useDispatch();
+    
     const { tableId } = useParams();
 
     const table = useSelector(state => getTableById(state, tableId));
