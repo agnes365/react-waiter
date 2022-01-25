@@ -1,4 +1,4 @@
-import { settings } from './settings';
+import { API_URL } from '../config';
 
 //selectors
 export const getAllTables = ({ tables }) => tables;
@@ -21,7 +21,7 @@ export const updateTableRequest = (table, callback) => {
       body: JSON.stringify(table),
     };
 
-    fetch(settings.db.url + '/api/tables/' + table.id, options)
+    fetch(API_URL + '/tables/' + table.id, options)
       .then(res => res.json())
       .then((t) => {
         dispatch(updateTable(table));
@@ -32,7 +32,7 @@ export const updateTableRequest = (table, callback) => {
 
 export const fetchTables = (callback) => {
   return (dispatch) => {
-    fetch(settings.db.url + '/api/tables')
+    fetch(API_URL + '/tables')
       .then(res => res.json())
       .then(tables => {
         dispatch(updateTables(tables));
